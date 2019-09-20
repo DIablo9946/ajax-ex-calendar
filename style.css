@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+.mese {
+  display: none;
+}
+
+.active {
+  display: inline-block;
+  text-align: center;
+}
+
+section {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.riga {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+
+h1 , span {
+  display: inline-block;
+}
