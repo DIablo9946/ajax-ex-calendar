@@ -12,13 +12,9 @@
 //    Aggiungere le festività a Gennaio
 //    Dare la possibilità di cambiare il mese
 
-// function giorni(mese) {
-//   for (i = 0; i > mese.length; i++)
-//
-// };
 
-var mese = 1;
-var giorni = moment("1-2018", "MM-YYYY").daysInMonth();
+var mese = 0;
+var giorni = moment([2018, mese, 01]).daysInMonth();
 console.log(giorni);
 var url = "https://flynn.boolean.careers/exercises/api/holidays"
 
@@ -30,10 +26,14 @@ $("#prev").click(function(){
   if ($(".gennaio").hasClass("active")){
       $(".gennaio").removeClass("active");
       $(".dicembre").addClass("active");
+      mese = 11;
+      console.log(mese);
   } else {
     var selMese = $(".mese.active");
     selMese.removeClass("active");
     selMese.prev().addClass("active");
+    mese--;
+    console.log(mese);
   };
 });
 
@@ -41,11 +41,21 @@ $("#next").click(function(){
   if ($(".dicembre").hasClass("active")){
       $(".dicembre").removeClass("active");
       $(".gennaio").addClass("active");
+      mese = 0;
+      console.log(mese);
 } else {
       var selMese = $(".mese.active");
       selMese.removeClass("active");
       selMese.next().addClass("active");
+      mese++;
+      console.log(mese);
   }
+  for (var i=1; i < giorni + 1; i++){
+    var data = moment([2018, mese, i]).format("Do MMMM");
+    var datarif = moment([2018, mese, i]).format("YYYY-MM-DD");
+    $(".active").append("<li dataref =" +  datarif + ">" + data + "</li>");
+    console.log(data);
+  };
 });
 };
 
@@ -55,16 +65,16 @@ $(document).ready(function(){
 carousel();
 
 for (var i=1; i < giorni + 1; i++){
-  var data = moment("2018" + "-1-" + i).format("Do MMMM");
-  var datarif = moment("2018" + "-1-" + i).format("YYYY-MM-DD");
-  $(".gennaio").append("<li dataref =" +  datarif + ">" + data + "</li>");
+  var data = moment([2018, mese, i]).format("Do MMMM");
+  var datarif = moment([2018, mese, i]).format("YYYY-MM-DD");
+  $(".mese").append("<li dataref =" +  datarif + ">" + data + "</li>");
   console.log(data);
 };
 
 
 $.ajax ({
   url : url,
-  data : {"year": "2018", "month": "0"},
+  data : {"year": "2018", "month": mese},
   method : "GET",
   success : function(data) {
     var calData = data.response;
