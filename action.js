@@ -17,45 +17,79 @@
 //
 // };
 
-var giorni = moment("01-2018", "MM-YYYY").daysInMonth();
+var mese = 1;
+var giorni = moment("1-2018", "MM-YYYY").daysInMonth();
 console.log(giorni);
+var url = "https://flynn.boolean.careers/exercises/api/holidays"
 
+function carousel(){
+$("#prev").click(function(){
+  // $(".mese.active").removeClass("active");
+  // $(".mese").prev().addClass("active");
+
+  if ($(".gennaio").hasClass("active")){
+      $(".gennaio").removeClass("active");
+      $(".dicembre").addClass("active");
+  } else {
+    var selMese = $(".mese.active");
+    selMese.removeClass("active");
+    selMese.prev().addClass("active");
+  };
+});
+
+$("#next").click(function(){
+  if ($(".dicembre").hasClass("active")){
+      $(".dicembre").removeClass("active");
+      $(".gennaio").addClass("active");
+} else {
+      var selMese = $(".mese.active");
+      selMese.removeClass("active");
+      selMese.next().addClass("active");
+  }
+});
+};
 
 
 $(document).ready(function(){
 
+carousel();
 
 for (var i=1; i < giorni + 1; i++){
-  var data = moment("01-" + i + "-2018").format("Do MMMM");
-  $(".boh").append("<li>" + data + "</li>");
+  var data = moment("2018" + "-1-" + i).format("Do MMMM");
+  var datarif = moment("2018" + "-1-" + i).format("YYYY-MM-DD");
+  $(".gennaio").append("<li dataref =" +  datarif + ">" + data + "</li>");
   console.log(data);
 };
 
 
+$.ajax ({
+  url : url,
+  data : {"year": "2018", "month": "0"},
+  method : "GET",
+  success : function(data) {
+    var calData = data.response;
+    for (i = 0; i < calData.length; i++){
+      var feste = calData[i];
+      console.log(feste.name, feste.date);
 
+      var dayFest = $("li[dataref='" + feste.date + "']");
+      if (dayFest){
+        dayFest.append(" " + feste.name).addClass("red");
 
-
-
-
-
-
-$("#prev").click(function(){
-  // $(".mese.active").removeClass("active");
-  // $(".mese").prev().addClass("active");
-  var selMese = $(".mese.active");
-  selMese.removeClass("active");
-  selMese.next().addClass("active");
-
-
-});
-
-$("#next").click(function(){
-  $(".mese.active").removeClass("active");
-  $(".mese").next().addClass("active");
-
-
+      }
+    };
+  },
+  error : function (){
+    console.log("Errore della pagina");
+  }
 
 });
+
+
+
+
+
+
 
 
 });

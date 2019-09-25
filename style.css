@@ -2,11 +2,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+    text-align: center;
 }
 
 
 .mese {
   display: none;
+  width: 300px;
 }
 
 .active {
@@ -29,4 +31,12 @@ section {
 
 h1 , span {
   display: inline-block;
+}
+
+span {
+  height: 20px;
+}
+
+.red{
+  color: red;
 }
