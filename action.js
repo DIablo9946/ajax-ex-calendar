@@ -14,8 +14,6 @@
 
 
 var mese = 0;
-var giorni = moment([2018, mese, 01]).daysInMonth();
-console.log(giorni);
 var url = "https://flynn.boolean.careers/exercises/api/holidays"
 
 function carousel(){
@@ -35,6 +33,7 @@ $("#prev").click(function(){
     mese--;
     console.log(mese);
   };
+  ajaxFeste();
 });
 
 $("#next").click(function(){
@@ -50,54 +49,53 @@ $("#next").click(function(){
       mese++;
       console.log(mese);
   }
+  ajaxFeste();
 });
 };
 
 
 $(document).ready(function(){
 
-// carousel();
+carousel();
+ajaxFeste();
+});
 
-for (var i=1; i < giorni + 1; i++){
-  var data = moment([2018, mese, i]).format("Do MMMM");
-  var datarif = moment([2018, mese, i]).format("YYYY-MM-DD");
-  $(".mese").append("<li dataref =" +  datarif + ">" + data + "</li>");
-  console.log(data);
+function ajaxFeste() {
+  $(".mese").find("li").remove();
+  var giorni = moment([2018, mese, 01]).daysInMonth();
+  console.log(giorni);
+  for (var i=1; i < giorni + 1; i++){
+    var data = moment([2018, mese, i]).format("Do MMMM");
+    var datarif = moment([2018, mese, i]).format("YYYY-MM-DD");
+    $(".mese").append("<li dataref =" +  datarif + ">" + data + "</li>");
+    console.log(data);
+  };
+
+
+  $.ajax ({
+    url : url,
+    data : {"year": "2018", "month": mese},
+    method : "GET",
+    success : function(data) {
+      var calData = data.response;
+      // carousel();
+
+      for (i = 0; i < calData.length; i++){
+
+        var feste = calData[i];
+        console.log(feste.name, feste.date);
+
+        var dayFest = $("li[dataref='" + feste.date + "']");
+        if (dayFest){
+          dayFest.append(" " + feste.name).addClass("red");
+
+        }
+      };
+      // carousel();
+    },
+    error : function (){
+      console.log("Errore della pagina");
+    }
+
+  });
 };
-
-
-$.ajax ({
-  url : url,
-  data : {"year": "2018", "month": mese},
-  method : "GET",
-  success : function(data) {
-    var calData = data.response;
-    // carousel();
-
-    for (i = 0; i < calData.length; i++){
-
-      var feste = calData[i];
-      console.log(feste.name, feste.date);
-
-      var dayFest = $("li[dataref='" + feste.date + "']");
-      if (dayFest){
-        dayFest.append(" " + feste.name).addClass("red");
-
-      }
-    };
-    // carousel();
-  },
-  error : function (){
-    console.log("Errore della pagina");
-  }
-
-});
-
-
-
-
-
-
-
-
-});
