@@ -50,19 +50,13 @@ $("#next").click(function(){
       mese++;
       console.log(mese);
   }
-  for (var i=1; i < giorni + 1; i++){
-    var data = moment([2018, mese, i]).format("Do MMMM");
-    var datarif = moment([2018, mese, i]).format("YYYY-MM-DD");
-    $(".active").append("<li dataref =" +  datarif + ">" + data + "</li>");
-    console.log(data);
-  };
 });
 };
 
 
 $(document).ready(function(){
 
-carousel();
+// carousel();
 
 for (var i=1; i < giorni + 1; i++){
   var data = moment([2018, mese, i]).format("Do MMMM");
@@ -78,7 +72,10 @@ $.ajax ({
   method : "GET",
   success : function(data) {
     var calData = data.response;
+    // carousel();
+
     for (i = 0; i < calData.length; i++){
+
       var feste = calData[i];
       console.log(feste.name, feste.date);
 
@@ -88,6 +85,7 @@ $.ajax ({
 
       }
     };
+    // carousel();
   },
   error : function (){
     console.log("Errore della pagina");
